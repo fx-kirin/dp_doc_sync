@@ -8,7 +8,7 @@ dp_doc_sync
    :alt: Latest PyPI version
 
 
-Syncronize directory to DPT-RP1 with ``[dpt-rp1-py](https://github.com/janten/dpt-rp1-py)``.
+Syncronize directory to DPT-RP1 with `dpt-rp1-py <https://github.com/janten/dpt-rp1-py>`_.
 
 Usage
 -----

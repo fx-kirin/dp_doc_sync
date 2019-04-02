@@ -1,0 +1,8 @@
+fire
+pathlib2
+kanilog
+setuptools
+mkdir_p
+add_parent_path
+pytest
+stdlogging
