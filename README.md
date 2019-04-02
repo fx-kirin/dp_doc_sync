@@ -2,7 +2,7 @@
 
 [![Latest PyPI version](https://img.shields.io/pypi/v/package_name.svg)](https://pypi.python.org/pypi/dp_doc_sync)
 
-Syncronize directory to DPT-RP1 with `[dpt-rp1-py](https://github.com/janten/dpt-rp1-py)`.
+Syncronize directory to DPT-RP1 with [dpt-rp1-py](https://github.com/janten/dpt-rp1-py).
 
 ## Usage
 

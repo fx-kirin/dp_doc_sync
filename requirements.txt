@@ -1,8 +1,0 @@
-kanilog
-setuptools
-pathlib2
-fire
-mkdir_p
-add_parent_path
-pytest
-stdlogging
