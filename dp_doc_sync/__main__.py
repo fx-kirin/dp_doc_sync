@@ -13,16 +13,17 @@
 import datetime
 import logging
 import os
+import pickle
 import subprocess
 import time
 from pathlib import Path
-from dateutil import tz
 
 import dateutil.parser
 import fire
 import kanilog
 import mkdir_p
 import stdlogging
+from dateutil import tz
 from dptrp1.dptrp1 import DigitalPaper
 
 
@@ -38,6 +39,10 @@ def main(id_file, key_file, address, sync_folder, sync_all=False):
     last_sync_timestamp_file = sync_folder.parent / 'last_sync_timestamp'
     if last_sync_timestamp_file.exists():
         last_sync_timestamp = int(last_sync_timestamp_file.read_text())
+    last_dpaper_pathes = []
+    last_dpaper_pathes_file = sync_folder.parent / 'last_dpaper_pathes'
+    if last_dpaper_pathes_file.exists():
+        last_dpaper_pathes = pickle.loads(last_dpaper_pathes_file.read_bytes())
 
     base_command = 'dptrp1 --client-id %s --key %s --addr %s' % (id_file, key_file, address)
     id_file = Path(id_file).expanduser()
@@ -82,10 +87,15 @@ def main(id_file, key_file, address, sync_folder, sync_all=False):
     for file_path in sync_folder.glob('**/*.pdf'):
         relative_path = 'Document' / file_path.relative_to(sync_folder)
         if relative_path not in remote_document_pathes:
-            logging.info('Uploading %s', file_path)
-            dp.upload(file_path.read_bytes(), str(relative_path))
+            if relative_path not in last_dpaper_pathes:
+                logging.info('Uploading %s', relative_path)
+                dp.upload(file_path.read_bytes(), str(relative_path))
+            else:
+                logging.info('Delete host document %s', file_path)
+                file_path.unlink()
 
     last_sync_timestamp_file.write_text(str(int(time.time())))
+    last_dpaper_pathes_file.write_bytes(pickle.dumps(remote_document_pathes))
 
 
 if __name__ == "__main__":

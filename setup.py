@@ -27,7 +27,7 @@ def get_requires():
 
 setup(
     name="dp_doc_sync",
-    version="0.1.1",
+    version="0.1.2",
     url="",
     license='MIT',
 

@@ -23,6 +23,17 @@ Installation
 Requirements
 ^^^^^^^^^^^^
 
+.. code-block::
+
+   add_parent_path
+   fire
+   kanilog
+   mkdir_p
+   pathlib2
+   pytest
+   setuptools
+   stdlogging
+
 Compatibility
 -------------
 
