@@ -35,10 +35,9 @@ def download(dp, entry_path, target_file, entry_timestamp):
 
 def main(id_file, key_file, address, sync_folder, sync_all=False):
     sync_folder = Path(sync_folder).expanduser().absolute()
-    last_sync_timestamp_file = sync_folder / 'last_sync_timestamp'
+    last_sync_timestamp_file = sync_folder.parent / 'last_sync_timestamp'
     if last_sync_timestamp_file.exists():
         last_sync_timestamp = int(last_sync_timestamp_file.read_text())
-
 
     base_command = 'dptrp1 --client-id %s --key %s --addr %s' % (id_file, key_file, address)
     id_file = Path(id_file).expanduser()
