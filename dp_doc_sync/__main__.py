@@ -61,7 +61,7 @@ def main(id_file, key_file, address, sync_folder, sync_all=False):
     # --  Download Document
     for document in remote_documents:
         entry_path = Path(document['entry_path'])
-        parent_folder = sync_folder / entry_path.parent
+        parent_folder = sync_folder / str(entry_path.parent).replace('Document/', '')
         if not parent_folder.exists():
             mkdir_p.mkdir_p(parent_folder)
         target_file = sync_folder / Path(str(entry_path).replace('Document/', ''))
@@ -84,11 +84,15 @@ def main(id_file, key_file, address, sync_folder, sync_all=False):
 
     # -- Upload Document
     remote_document_pathes = [Path(document['entry_path']) for document in remote_documents]
+    remote_document_folders = set([Path(document['entry_path']).parent for document in remote_documents])
     for file_path in sync_folder.glob('**/*.pdf'):
         relative_path = 'Document' / file_path.relative_to(sync_folder)
         if relative_path not in remote_document_pathes:
             if relative_path not in last_dpaper_pathes:
                 logging.info('Uploading %s', relative_path)
+                if relative_path.parent not in remote_document_folders:
+                    dp.new_folder(relative_path.parent)
+                    remote_document_folders.add(relative_path.parent)
                 dp.upload(file_path.read_bytes(), str(relative_path))
             else:
                 logging.info('Delete host document %s', file_path)
